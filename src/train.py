@@ -43,12 +43,12 @@ if args['n_recommendations'] is not None:
 else:
     model = train_model(vendor_vector_space)
 
-# # evaluate model
-# print('[INFO] Evaluating model...')
-# train_apk = evaluate_model(model, train_data, vendors, vendor_vector_space, train_vector_space)
-# test_apk = evaluate_model(model, test_data, vendors, vendor_vector_space, test_vector_space)
-# print('[INFO] Training MAP@K: {:.2f}'.format(train_apk))
-# print('[INFO] Test MAP@K: {:.2f}'.format(test_apk))
+# evaluate model
+print('[INFO] Evaluating model...')
+train_apk = evaluate_model(model, train_data, vendors, vendor_vector_space, train_vector_space)
+test_apk = evaluate_model(model, test_data, vendors, vendor_vector_space, test_vector_space)
+print('[INFO] Training MAP@K: {:.2f}'.format(train_apk))
+print('[INFO] Test MAP@K: {:.2f}'.format(test_apk))
 
 # save model & user profile
 if args['save_model_as'] is not None:

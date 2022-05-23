@@ -7,7 +7,6 @@ from haversine import haversine
 
 
 def train_model(df_profile, n_recommendations=20, metric='cosine', algorithm='brute'):
-    n_recommendations = 20
     knn = NearestNeighbors(metric=metric, algorithm=algorithm, n_neighbors=n_recommendations)
     knn.fit(df_profile.values)
     return knn
