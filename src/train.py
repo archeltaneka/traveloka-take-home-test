@@ -41,7 +41,7 @@ combined_user_space = train_vector_space.append(test_vector_space)
 print('[INFO] Training model...')
 print('[INFO] KNN Model configurations:\n k={}\n Algorithm: {}\n Metric={}'.format(args['n_recommendations'], args['algorithm'], args['metric']))
 if args['n_recommendations'] is not None:
-    model = train_model(vendor_vector_space, n_recommendations=args['n_recommendations'])
+    model = train_model(vendor_vector_space, n_recommendations=int(args['n_recommendations']))
 else:
     model = train_model(vendor_vector_space)
 
