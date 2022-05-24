@@ -7,7 +7,6 @@ def load_data(path):
     elif '.pickle' in path or '.pkl' in path:
         with open(path, 'rb') as f:
             data = pickle.load(f)
-            data = data['data']
 
     return data
 

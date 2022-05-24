@@ -18,6 +18,7 @@ arg_parser.add_argument('--algorithm', required=False, default='brute', help='KN
 arg_parser.add_argument('--metric', required=False, default='cosine', help='KNN metric that will be used (default is "cosine")')
 arg_parser.add_argument('--n_recommendations', required=False, default=20, help='Number of recommendations that KNN will provide (default is 20)')
 arg_parser.add_argument('--save_model_as', required=False, help='Save the model in a directory')
+arg_parser.add_argument('--save_vendor_profile', required=True, choices=['yes', 'no'], help='Whether to save vendor profiles in a directory')
 arg_parser.add_argument('--save_user_profile', required=True, choices=['yes', 'no'], help='Whether to save user profiles in a directory')
 args = vars(arg_parser.parse_args())
 
@@ -34,6 +35,7 @@ print('[INFO] Creating vector space for vendors, training, and test data...')
 vendor_vector_space = create_vector_space(vendors, is_vendor=True)
 train_vector_space = create_vector_space(train_data)
 test_vector_space = create_vector_space(test_data)
+combined_user_space = train_vector_space.append(test_vector_space)
 
 # model fit
 print('[INFO] Training model...')
@@ -50,13 +52,18 @@ test_apk = evaluate_model(model, test_data, vendors, vendor_vector_space, test_v
 print('[INFO] Training MAP@K: {:.2f}'.format(train_apk))
 print('[INFO] Test MAP@K: {:.2f}'.format(test_apk))
 
-# save model & user profile
+# save model, vendor, and user profile
 if args['save_model_as'] is not None:
     with open(args['save_model_as'], 'wb') as f:
         pickle.dump(model, f)
     print('[INFO] Model succesfully saved:', args['save_model_as'])
 user_profile_fn = 'user_profile_' + str(datetime.now().date()) + '.pickle'
+vendor_profile_fn = 'vendor_profile_' + str(datetime.now().date()) + '.pickle'
+if args['save_vendor_profile'] == 'yes':
+    with open(vendor_profile_fn, 'wb') as f:
+        pickle.dump(vendor_vector_space, f)
+    print('[INFO] Vendor profiles succesfully saved:', vendor_profile_fn)
 if args['save_user_profile'] == 'yes':
     with open(user_profile_fn, 'wb') as f:
-        pickle.dump(train_vector_space, f)
+        pickle.dump(combined_user_space, f)
     print('[INFO] User profiles succesfully saved:', user_profile_fn)

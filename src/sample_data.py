@@ -23,12 +23,10 @@ sampled_train = train_full.sample(frac=float(args['train_sample'])/100, random_s
 sampled_test = test_full.sample(frac=float(args['test_sample'])/100, random_state=RANDOM_STATE)
 print('[INFO] You have sampled {} rows of training data and {} rows of test data'.format(len(sampled_train), len(sampled_test)))
 
-train_pickle = {'data': sampled_train}
-test_pickle = {'data': sampled_test}
 print('[INFO] Saving both sampled data...')
 with open(args['train_save_path'], 'wb') as f:
-    pickle.dump(train_pickle, f)
+    pickle.dump(sampled_train, f)
 with open(args['test_save_path'], 'wb') as f:
-    pickle.dump(test_pickle, f)
+    pickle.dump(sampled_test, f)
 
 print('[INFO] Saving finished, exiting program...')
